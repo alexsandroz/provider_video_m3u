@@ -95,6 +95,8 @@ class Channels(PluginChannels):
                             header.update(h_dict)
 
             for seg in m3u8_obj.segments:
+                if not seg.additional_props:
+                    continue
                 if self.is_m3u_filtered(seg):
                     continue
                 ch_number = None
@@ -136,7 +138,7 @@ class Channels(PluginChannels):
                     else:
                         thumbnail_size = self.get_thumbnail_size(thumbnail, 2, ch_id)
                 else:
-                    enabled = True
+                    enabled = False
                     hd = 0
                     thumbnail_size = self.get_thumbnail_size(thumbnail, 2, ch_id)
 
