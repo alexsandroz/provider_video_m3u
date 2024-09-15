@@ -130,6 +130,7 @@ class Channels(PluginChannels):
                 else:
                     thumbnail = None
 
+                enabled = False
                 if ch_db_data:
                     enabled = ch_db_data[0]['enabled']
                     hd = ch_db_data[0]['json']['HD']
@@ -138,7 +139,6 @@ class Channels(PluginChannels):
                     else:
                         thumbnail_size = self.get_thumbnail_size(thumbnail, 2, ch_id)
                 else:
-                    enabled = False
                     hd = 0
                     thumbnail_size = self.get_thumbnail_size(thumbnail, 2, ch_id)
 
