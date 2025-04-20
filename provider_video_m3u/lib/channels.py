@@ -107,7 +107,11 @@ class Channels(PluginChannels):
                 else:
                     ch_number = self.set_channel_num(ch_number)
 
-                if 'tvg-id' in seg.additional_props and \
+                if 'use-name-as-id' in self.config_obj.data[self.config_section] and \
+                        self.config_obj.data[self.config_section]['use-name-as-id'] and \
+                        seg.title is not None and len(seg.title) != 0:
+                    ch_id = seg.title.strip().lower()                    
+                elif 'tvg-id' in seg.additional_props and \
                         len(seg.additional_props['tvg-id']) != 0:
                     ch_id = seg.additional_props['tvg-id']
                 elif 'channel-id' in seg.additional_props and \
@@ -120,8 +124,10 @@ class Channels(PluginChannels):
                     ch_id = str(ch_number)
                 else:
                     ch_id = None
+                ch_id = ch_id.replace(b'\xc2\xb9'.decode('utf-8'), '1')
+                ch_id = ch_id.replace(b'\xc2\xb2'.decode('utf-8'), '2')
                 ch_id = re.sub(self.url_chars, '_', ch_id)
-
+    
                 ch_db_data = self.ch_db_list.get(ch_id)
                 if 'tvg-logo' in seg.additional_props and seg.additional_props['tvg-logo'] != '':
                     thumbnail = seg.additional_props['tvg-logo']
