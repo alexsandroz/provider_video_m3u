@@ -137,6 +137,7 @@ class Channels(PluginChannels):
                     thumbnail = None
 
                 enabled = False
+                content_uid = None
                 if ch_db_data:
                     enabled = ch_db_data[0]['enabled']
                     hd = ch_db_data[0]['json']['HD']
@@ -144,11 +145,17 @@ class Channels(PluginChannels):
                         thumbnail_size = ch_db_data[0]['json']['thumbnail_size']
                     else:
                         thumbnail_size = self.get_thumbnail_size(thumbnail, 2, ch_id)
+                    content_uid = ch_db_data[0].get('content_uid')
                 else:
                     hd = 0
                     thumbnail_size = self.get_thumbnail_size(thumbnail, 2, ch_id)
 
                 stream_url = seg.absolute_uri
+
+                if content_uid is None and \
+                        'tvg-id' in seg.additional_props and \
+                        len(seg.additional_props['tvg-id']) != 0:
+                    content_uid = seg.additional_props['tvg-id']
 
                 if 'group-title' in seg.additional_props:
                     groups_other = seg.additional_props['group-title']
@@ -172,6 +179,7 @@ class Channels(PluginChannels):
                     'stream_url': stream_url,
                     'Header': header,
                     'ref_url': ref_url,
+                    'content_uid': content_uid,
                 }
                 ch_list.append(channel)
 

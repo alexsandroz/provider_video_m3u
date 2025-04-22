@@ -71,26 +71,26 @@ class EPG(PluginEPG):
                 if ch in epg_ch_list:
                     continue
                 self.logger.debug(
-                    '{}:{} Channel {} missing program data, adding default for day {}'
+                    '{}:{} Channel {} missing program data for day {}'
                     .format(self.plugin_obj.name, self.instance_key, ch, start_date))
                 # fill in default program data
-                start_hour = datetime.datetime.utcnow().hour - 2
-                if start_hour < 0:
-                    start_hour = 0
-                dt_start_day = datetime.datetime.combine(start_date, datetime.time())
-                for hr in range(start_hour, 24):
-                    dt_start_time = dt_start_day.replace(
-                        tzinfo=datetime.timezone.utc, hour=hr, minute=0, second=0, microsecond=0)
-                    start = round(dt_start_time.timestamp())
-                    end = round(dt_start_time.timestamp() + 3600)
-                    ch_data = ch_list[str(ch)][0]
-                    if ch_data['json']['groups_other'] is None:
-                        genres = None
-                    else:
-                        genres = [ch_data['json']['groups_other']]
-                    prog_one = self.get_blank_program(start, end,
-                                                      ch_data['uid'], ch_data['display_name'], genres)
-                    program_list.append(prog_one)
+                # start_hour = datetime.datetime.utcnow().hour - 2
+                # if start_hour < 0:
+                #     start_hour = 0
+                # dt_start_day = datetime.datetime.combine(start_date, datetime.time())
+                # for hr in range(start_hour, 24):
+                #     dt_start_time = dt_start_day.replace(
+                #         tzinfo=datetime.timezone.utc, hour=hr, minute=0, second=0, microsecond=0)
+                #     start = round(dt_start_time.timestamp())
+                #     end = round(dt_start_time.timestamp() + 3600)
+                #     ch_data = ch_list[str(ch)][0]
+                #     if ch_data['json']['groups_other'] is None:
+                #         genres = None
+                #     else:
+                #         genres = [ch_data['json']['groups_other']]
+                #     prog_one = self.get_blank_program(start, end,
+                #                                       ch_data['uid'], ch_data['display_name'], genres)
+                #     program_list.append(prog_one)
             if len(program_list) == 0:
                 if xmltv.has_future_dates:
                     start_date += datetime.timedelta(days=1)
