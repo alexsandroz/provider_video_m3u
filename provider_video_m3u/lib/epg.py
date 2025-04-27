@@ -65,10 +65,12 @@ class EPG(PluginEPG):
                 ch_id = re.sub(self.url_chars, '_', prog_one['channel'])
                 epg_ch_list[ch_id] = None
             ch_list = ch_db.get_channels(self.plugin_obj.name, self.instance_key)
-            for ch in ch_list.keys():
-                if not ch_list[ch][0]['enabled']:
+            for ch, ch_data in ch_list.items():
+                if not ch_data[0]['enabled']:
                     continue
                 if ch in epg_ch_list:
+                    continue
+                if ch_data[0].get('content_uid') in epg_ch_list:
                     continue
                 self.logger.debug(
                     '{}:{} Channel {} missing program data for day {}'
