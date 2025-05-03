@@ -202,8 +202,7 @@ class Channels(PluginChannels):
         else:
             stream_url = ch_dict['json']['stream_url']
 
-        if self.config_obj.data[self.config_section]['player-stream_type'] == 'm3u8redirect' or \
-                self.config_obj.data[self.config_section]['player-stream_type'] == 'm3u8proxy':
+        if self.config_obj.data[self.config_section]['player-stream_type'] == 'm3u8redirect':
             return stream_url
 
         return self.get_best_stream(stream_url, 2, _channel_id)
