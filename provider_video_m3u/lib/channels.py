@@ -124,6 +124,7 @@ class Channels(PluginChannels):
                     ch_id = str(ch_number)
                 else:
                     ch_id = None
+                ch_id = ch_id.replace(b'\xc2\xb0'.decode('utf-8'), '0')
                 ch_id = ch_id.replace(b'\xc2\xb9'.decode('utf-8'), '1')
                 ch_id = ch_id.replace(b'\xc2\xb2'.decode('utf-8'), '2')
                 ch_id = re.sub(self.url_chars, '_', ch_id)
